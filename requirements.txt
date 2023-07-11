@@ -6,4 +6,3 @@ pymongo
 requests
 jinja2
 pydantic
-uvicorn
