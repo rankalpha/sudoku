@@ -1,0 +1,572 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+
+body {
+  max-width: 768px;
+  min-width: 380px;
+  margin: 0 auto;
+}
+
+.novis {
+  visibility: hidden;
+}
+
+@keyframes floatY {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-30px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatX {
+  0% {
+    transform: translateX(-80px);
+    animation-timing-function: ease-in-out;
+  }
+
+  50% {
+    transform: translateX(80px);
+    animation-timing-function: ease-in-out;
+  }
+
+  100% {
+    transform: translateX(-80px);
+    animation-timing-function: ease-in-out;
+  }
+}
+
+.float_aniX {
+  text-shadow: 0 0 10px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #709ce8, 0 0 40px #6432ec;
+  animation: floatX 3s ease-in-out infinite;
+}
+
+.float_aniY {
+  text-shadow: 0 0 10px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #709ce8, 0 0 40px #6432ec;
+  animation: floatY 5s ease-in-out infinite;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #AED6F1;
+  color: #fff;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.menu {
+  position: relative;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.menu-items {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.menu-items a {
+  display: block;
+  padding: 5px 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.time {
+  font-size: 1.2rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.main {
+  flex: 1 0 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+@supports (grid-template-columns: 1fr 1fr) {  /* 在支持 grid-template-columns 属性的浏览器中使用该属性 */
+	.board {
+	  display: grid;
+	  grid-template-columns: repeat(3, 1fr);
+	  grid-template-rows: repeat(3, 1fr);
+	  gap: 0;
+	  border: 1px solid black;
+	}
+
+	.grid {
+	  display: grid;
+	  grid-template-columns: repeat(3, 1fr);
+	  grid-template-rows: repeat(3, 1fr);
+	  gap: 0;
+	  border: 1px solid blue;
+	}
+}
+
+@supports not (grid-template-columns: 1fr 1fr) {
+	.board {
+	  display: flex;
+	  flex-wrap: wrap;
+	  width: 100%;
+	  border: 1px solid black;
+	  position: relative;
+	}
+
+	.grid {
+	  box-sizing: border-box;
+	  border: 1px solid blue;
+	  padding: 0;
+	  display: flex;
+	  flex-wrap: wrap;
+	  width: calc(100% / 3);
+	  height: calc(100% / 3);
+      position: absolute;
+	}
+
+	.box {
+	  box-sizing: border-box;
+	  padding: 0;
+	  width: calc(100% / 3);
+	  height: calc(100% / 3);
+	  position: absolute;
+	}
+}
+
+.board> :nth-child(2),
+.board> :nth-child(4),
+.board> :nth-child(6),
+.board> :nth-child(8) {
+  background-color: #e8f4f4;
+}
+
+@supports not (grid-template-columns: 1fr 1fr) {
+	.r1 {
+		top: 0;
+	}
+
+	.r2 {
+		top: calc(100% / 3);
+	}
+
+	.r3 {
+		top: calc(100% / 3 * 2);
+	}
+
+	.c1 {
+		left: 0;
+	}
+
+	.c2 {
+		left: calc(100% / 3);
+	}
+
+	.c3 {
+		left: calc(100% / 3 * 2);
+	}
+}
+
+.box {
+  border: 1px solid #aaaadd;
+}
+
+.disable {
+  opacity: 0.3;
+  /* 可选：设置透明度以表示禁用状态 */
+  pointer-events: none;
+}
+
+.circle:not(.hide) {
+  border-radius: 50%;
+  border: 1px solid red;
+  box-sizing: border-box;
+}
+
+.hide {
+  display: none;
+}
+
+@supports (grid-template-columns: 1fr 1fr) {   /* 在支持 grid-template-columns 属性的浏览器中使用该属性 */
+	.cell {
+	  display: grid;
+	  grid-template-columns: 25% 50% 25%;
+	  gap: 0;
+	  width: 100%;
+	  height: 100%;
+	}
+
+	.text_wrap {
+	  grid-column: 2 / 3;
+	}
+	
+	.warning_wrap {
+	  grid-column: 3 / 3;
+	}
+
+	.text:not(.hide) {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  font-size: 2rem;
+	  width: 100%;
+	  height: 100%;
+	}
+
+	.warning:not(.hide) {
+	  display: flex;
+	  justify-content: center;
+	  align-items: flex-start;
+	  font-size: 1rem;
+	  color: red;
+	}
+}
+
+@supports not (grid-template-columns: 1fr 1fr) {
+	.cell {
+	  display: flex;
+	  width: 100%;
+	  height: 100%;
+	}
+
+	.text_wrap {
+		flex: 2;
+		flex-basis: 50%;
+		flex-shrink: 0;
+		flex-grow: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 0px 0 0px 25%;
+	}
+
+	.text {
+		font-size: 2rem;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.warning_wrap {
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		font-size: 1rem;
+		color: red;
+		flex: 3;
+		overflow: hidden;
+	}
+	.warning {
+		font-size: 1rem;
+		color: red;
+	}
+}
+
+@supports (grid-template-columns: 1fr 1fr) {  /* 在支持 grid-template-columns 属性的浏览器中使用该属性 */
+	.tips {
+	  display: grid;
+	  grid-template-columns: repeat(10, 1fr);
+	  gap: 0;
+	  border: 1px solid blue;
+	}
+
+	.num {
+	  height: auto;
+	  aspect-ratio: 1 / 1;
+	  border-radius: 50%;
+	  margin: 4px;
+	  background-color: #76D7C4;
+	  transition: box-shadow 0.1s ease-in-out;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  font-size: 1.5rem;
+	  color: white;
+	}
+}
+
+@supports not (grid-template-columns: 1fr 1fr) {
+	.tips {
+	  display: flex;
+	  width: 100%;
+	  border: 1px solid blue;
+	}
+
+	.num {
+	  flex-basis: 10%;
+	  height: auto;
+	  aspect-ratio: 1 / 1;
+	  border-radius: 50%;
+	  margin: 4px;
+	  background-color: #76D7C4;
+	  transition: box-shadow 0.1s ease-in-out;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  font-size: 1.5rem;
+	  color: white;
+	}
+}
+
+.num:hover {
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+}
+
+.select {
+  background-color: #6C3483;
+}
+
+.complete {
+  background-color: #808284;
+  opacity: 0.3;
+  /* 可选：设置透明度以表示禁用状态 */
+  pointer-events: none;
+}
+
+.main-secondary {
+  display: flex;
+  flex-direction: column;
+}
+
+.levels_bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px 5px 20px;
+}
+
+.levels_bar>* {
+  flex: 1;
+  margin: 0 10px;
+}
+
+.btns_bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 20px 5px 20px;
+}
+
+.btns_bar>* {
+  flex: 1;
+  margin: 0 10px;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100px;
+  border-radius: 16px;
+  padding: 8px 12px;
+  margin: 2px;
+  font-size: 1rem;
+  background: linear-gradient(to bottom, #D1F2EB, #17A589);
+  color: #fff;
+  border: 1px solid #00dcff;
+  box-sizing: border-box;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  /* transition: all 0.1s ease; */
+  transition: all 0.1s ease-in-out;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* 添加过渡效果 */
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  /* 鼠标移动到按钮上时向上浮动 2px */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  /* 添加阴影效果 */
+}
+
+.btn:active {
+  transform: translateY(2px);
+  /* 鼠标按下时向下压缩 2px */
+  box-shadow: none;
+  /* 去掉阴影效果 */
+}
+
+.btns {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin-left: auto;
+}
+
+.levels {
+  display: flex;
+  flex-direction: column;
+  margin-right: auto;
+  padding: 10px;
+}
+
+
+.secondary-content {
+  display: none;
+  margin-top: 0.2rem;
+
+}
+
+
+@media screen and (max-width: 768px) {
+  .secondary-content {
+    display: block;
+  }
+}
+
+
+fieldset {
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  margin: 8px;
+  padding: 8px;
+}
+
+table {
+  border-collapse: collapse;
+  border: none;
+  width: 100%;
+}
+
+td {
+  padding: 3px;
+}
+
+.right_align {
+  text-align: right;
+}
+
+.left_align {
+  text-align: left;
+}
+
+.sidebar {
+  flex: 1 0 30%;
+  display: none;
+}
+
+.top_sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.status_fieldset {
+  display: flex;
+  flex-direction: column;
+}
+
+.win_fieldset {
+  display: flex;
+  flex-direction: column;
+}
+
+.medium_sidebar {
+  display: flex;
+  flex-direction: row;
+}
+
+
+
+.bingo {
+  font-size: 1rem;
+  font-weight: bold;
+  color: red;
+}
+
+.left_bottom_sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.right_bottom_sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 769px) {
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  * {
+    max-width: 99.4vw;
+  }
+
+  .menu-button {
+    font-size: 1.8rem;
+  }
+
+  .time {
+    font-size: 1rem;
+  }
+
+  .num {
+    font-size: 1.2rem;
+  }
+
+  .text:not(.hide) {
+    font-size: 1.8rem;
+  }
+
+  .warning:not(.hide) {
+    font-size: 0.8rem;
+  }
+
+  .btn {
+    font-size: 0.8rem;
+  }
+
+  .bingo {
+    font-size: 0.8rem;
+  }
+
+  .main-secondary {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .secondary-content {
+    flex-basis: calc(50% - 1rem);
+  }
+}
